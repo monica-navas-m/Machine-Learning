@@ -12,4 +12,4 @@ Discuss which model we want
 All go through the dataset
 Try to get the columns of the dataset 
 
-##Tuesday Session Meeting at 11:00
+## Tuesday Session Meeting at 11:00

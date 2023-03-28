@@ -1,54 +1,52 @@
 import pandas as pd
-from sklearn.cluster import KMeans
-
-file_path = r'C:\Users\yassine\Desktop\Nova SBE\machine learning\group project\covtype_data.csv'
-
+import matplotlib.pyplot as plt
 # Load the data into a pandas dataframe
+file_path = r'C:\Users\yassine\Desktop\Nova SBE\machine learning\group project\covtype_data.csv'
 df = pd.read_csv(file_path)
 # Define column names
-col_names = ['Elevation', 'Aspect', 'Slope', 'H_Distance_Hydro', 'V_Distance_Hydro',
-             'H_Distance_Roadways', 'Hillshade_9am', 'Hillshade_Noon', 'Hillshade_3pm',
-             'H_Distance_Fire_Points']
+col_names = ['Elevation', 'Aspect', 'Slope', 'Horizontal_Distance_To_Hydrology', 'Vertical_Distance_To_Hydrology ',
+             'Horizontal_Distance_To_Roadways', 'Hillshade_9am', 'Hillshade_Noon', 'Hillshade_3pm',
+             'Horizontal_Distance_To_Fire_Points']
 
 # Generate names for binary columns based on their position
-binary_col_names = [f"Wilderness_Area_{i+1}" for i in range(4)]
-binary_col_names += [f"Soil_Type_{i+1}" for i in range(40)]
+binary_col_names = [i+1 for i in range(4)]
+binary_col_names += [i+1 for i in range(40)]
 
 # Append the binary column names to the list of column names
 col_names += binary_col_names
 
 # Append the target variable name to the list of column names
-col_names.append('Cover_Type')
+col_names.append('Cover_Type_code')
 
 # Rename the columns in the DataFrame
 df.columns = col_names
+df
 
-# Select the soil type features only
-X = df.iloc[:, 14:54]
-# it takes time 
-# Choose the number of clusters
-num_clusters = 10
+df['Soil type code'] = df.iloc[:, 14:54].idxmax(axis=1)
+df = pd.concat([df.iloc[:, :14], df.iloc[:, 54:]], axis=1)
+df
 
-# Create a K-means clustering object
-kmeans = KMeans(n_clusters=num_clusters, random_state=0)
+from sklearn.cluster import KMeans
 
-# Fit the clustering object to the data
-kmeans.fit(X)
+# Get the soil type code column
+soil_type_code = df['Soil type code']
 
-# Get the cluster labels for each soil type
+# Initialize the KMeans object with 5 clusters
+kmeans = KMeans(n_clusters=10)
+
+# Fit the KMeans model on the soil type code column
+kmeans.fit(soil_type_code.to_numpy().reshape(-1, 1))
+
+# Get the cluster labels for each soil type code
 cluster_labels = kmeans.labels_
 
-# Add the cluster labels to the original dataset
-df['Cluster_Labels'] = cluster_labels
+# Add the cluster labels as a new column in the dataframe
+df['Soil type cluster'] = cluster_labels
+df
 
-# Evaluate the performance of the clustering algorithm using silhouette score
-from sklearn.metrics import silhouette_score
-silhouette_avg = silhouette_score(X, cluster_labels)
-print("The average silhouette_score is :", silhouette_avg)
 
-# Visualize the results using scatter plot
-import matplotlib.pyplot as plt
-plt.scatter(X.iloc[:,0], X.iloc[:,1], c=cluster_labels)
-plt.xlabel('Soil Type Feature 1')
-plt.ylabel('Soil Type Feature 2')
+plt.scatter(df.index, df['Soil type cluster'], c=df['Soil type cluster'])
+plt.xlabel('Row Index')
+plt.ylabel('Cluster')
+plt.title('Soil Type Clusters')
 plt.show()

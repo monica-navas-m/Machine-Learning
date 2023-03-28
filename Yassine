@@ -24,7 +24,7 @@ col_names.append('Cover_Type')
 df.columns = col_names
 
 # Select the soil type features only
-X = data.iloc[:, 14:54]
+X = df.iloc[:, 14:54]
 
 # Choose the number of clusters
 num_clusters = 10
@@ -39,7 +39,7 @@ kmeans.fit(X)
 cluster_labels = kmeans.labels_
 
 # Add the cluster labels to the original dataset
-data['Cluster_Labels'] = cluster_labels
+df['Cluster_Labels'] = cluster_labels
 
 # Evaluate the performance of the clustering algorithm using silhouette score
 from sklearn.metrics import silhouette_score

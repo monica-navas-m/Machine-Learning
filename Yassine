@@ -24,6 +24,8 @@ df
 
 df['Soil type code'] = df.iloc[:, 14:54].idxmax(axis=1)
 df = pd.concat([df.iloc[:, :14], df.iloc[:, 54:]], axis=1)
+df['Wilderness area code'] = df.iloc[:, 10:14].idxmax(axis=1)
+df = pd.concat([df.iloc[:, :10], df.iloc[:, 14:]], axis=1)
 df
 
 from sklearn.cluster import KMeans

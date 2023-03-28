@@ -25,7 +25,7 @@ df.columns = col_names
 
 # Select the soil type features only
 X = df.iloc[:, 14:54]
-
+# it takes time 
 # Choose the number of clusters
 num_clusters = 10
 

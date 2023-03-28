@@ -30,5 +30,5 @@ MODELS:
 - Decision tree
 - Clustering (Clustering is a technique in unsupervised machine learning that does not necessarily involve the use of a model, at least not in the traditional sense)
 
-## xx Meeting at xx
+## Meeting on Thursday at 11:00
 

@@ -24,11 +24,11 @@ Better not work on main
 ## Tuesday Session Meeting at 15:00
 Business application decided: *environmental monitoring* - the dataset contains a wide range of environmental variables, including elevation, slope, soil type, and climate data. By building machine learning models to analyze these variables, businesses and organizations can gain insights into the impact of different environmental factors on forest health and use these insights to develop more effective environmental monitoring programs.
 
-## TO DO
+## TO DO's:
 MODELS:
 - Classification model (cover type per area)
 - Decision tree
 - Clustering (Clustering is a technique in unsupervised machine learning that does not necessarily involve the use of a model, at least not in the traditional sense)
 
-## Meeting at 
+## xx Meeting at xx
 

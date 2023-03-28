@@ -44,7 +44,7 @@ cluster_labels = kmeans.labels_
 df['Soil type cluster'] = cluster_labels
 df
 
-
+# the clustering gonna be in lines ( Circles gonna take a huge time to run ) 
 plt.scatter(df.index, df['Soil type cluster'], c=df['Soil type cluster'])
 plt.xlabel('Row Index')
 plt.ylabel('Cluster')

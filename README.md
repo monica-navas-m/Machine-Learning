@@ -13,7 +13,7 @@ Better not work on main
 - Try to get the columns of the dataset 
 
 ## Tuesday Session Meeting at 15:00
-Business application decided: environmental monitoring - the dataset contains a wide range of environmental variables, including elevation, slope, soil type, and climate data. By building machine learning models to analyze these variables, businesses and organizations can gain insights into the impact of different environmental factors on forest health and use these insights to develop more effective environmental monitoring programs.
+Business application decided: *environmental monitoring* - the dataset contains a wide range of environmental variables, including elevation, slope, soil type, and climate data. By building machine learning models to analyze these variables, businesses and organizations can gain insights into the impact of different environmental factors on forest health and use these insights to develop more effective environmental monitoring programs.
 
 ## Project Evaluation
 

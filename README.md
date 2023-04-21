@@ -1,3 +1,15 @@
+## TO DO's:
+1. Answering questions - practical implications - Marouan/Mila
+2. EDA - Marouan/Mila
+3. Decision tree model - Helena
+4. New model - Monica
+5. New model - Yassine
+
+#Next meeting: 28th April, 2-3pm
+
+
+
+
 # ML_group
 
 Main branch includes a folder dataset with the different CSV's 
@@ -14,21 +26,7 @@ Better not work on main
 - We will assign the project group based on your student numbers
 - Each student is expected to perform analysis and should be able to explain the project
 
-## TO DO's:
-- Go through slides 
-- Which variable are we going to predict?
-- Discuss which model we want 
-- All go through the dataset
-- Try to get the columns of the dataset 
 
-## Tuesday Session Meeting at 15:00
 Business application decided: *environmental monitoring* - the dataset contains a wide range of environmental variables, including elevation, slope, soil type, and climate data. By building machine learning models to analyze these variables, businesses and organizations can gain insights into the impact of different environmental factors on forest health and use these insights to develop more effective environmental monitoring programs.
 
-## TO DO's:
-MODELS:
-- Classification model (cover type per area)
-- Decision tree
-- Clustering (Clustering is a technique in unsupervised machine learning that does not necessarily involve the use of a model, at least not in the traditional sense)
-
-## Meeting on Thursday at 11:00
 

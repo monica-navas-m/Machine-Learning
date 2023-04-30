@@ -52,3 +52,47 @@ plt.xlabel('Row Index')
 plt.ylabel('Cluster')
 plt.title('Soil Type Clusters')
 plt.show()
+
+
+# Model Random Forest : 
+
+#try performing feature selection to identify and remove any unnecessary features .
+#This improves the performance of the model and reduce overfitting
+
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(df.drop('Cover_Type_code', axis=1), 
+                                                    df['Cover_Type_code'], 
+                                                    test_size=0.2, 
+                                                    random_state=42)
+
+# Perform feature selection
+from sklearn.feature_selection import SelectFromModel
+
+# Create a random forest classifier with 10 trees
+rfc = RandomForestClassifier(n_estimators=10, random_state=42)
+
+# Create a feature selection object
+selector = SelectFromModel(rfc)
+
+# Fit the selector to the training data
+selector.fit(X_train, y_train)
+
+# Transform the training and testing data to only include the selected features
+X_train_selected = selector.transform(X_train)
+X_test_selected = selector.transform(X_test)
+
+# Fit the model to the training data using only the selected features
+rfc_selected = RandomForestClassifier(n_estimators=10, random_state=42)
+rfc_selected.fit(X_train_selected, y_train)
+
+# Make predictions on the testing data using only the selected features
+y_pred_selected = rfc_selected.predict(X_test_selected)
+
+# Calculate the accuracy of the model using only the selected features
+accuracy_selected = accuracy_score(y_test, y_pred_selected)
+
+print("Accuracy (with feature selection):", accuracy_selected)

@@ -56,6 +56,9 @@ plt.show()
 
 # Model Random Forest : 
 
+#The code is using the Random Forest Classifier algorithm to classify the cover type of a forest based on a number of environmental variables such as elevation, slope, and soil type. However, the dataset may contain irrelevant or redundant features that could negatively impact the accuracy of the model, and also increase the risk of overfitting
+#To avoid overfitting, it's important to identify and remove any unnecessary features that do not contribute significantly to the performance of the model
+
 #try performing feature selection to identify and remove any unnecessary features .
 #This improves the performance of the model and reduce overfitting
 

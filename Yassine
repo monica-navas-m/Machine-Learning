@@ -1,0 +1,108 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+# Load the data into a pandas dataframe
+file_path = r'C:\Users\yassine\Desktop\Nova SBE\machine learning\group project\covtype_data.csv'
+df = pd.read_csv(file_path)
+# Define column names
+col_names = ['Elevation', 'Aspect', 'Slope', 'Horizontal_Distance_To_Hydrology', 'Vertical_Distance_To_Hydrology ',
+             'Horizontal_Distance_To_Roadways', 'Hillshade_9am', 'Hillshade_Noon', 'Hillshade_3pm',
+             'Horizontal_Distance_To_Fire_Points']
+
+# Generate names for binary columns based on their position
+binary_col_names = [i+1 for i in range(4)]
+binary_col_names += [i+1 for i in range(40)]
+
+# Append the binary column names to the list of column names
+col_names += binary_col_names
+
+# Append the target variable name to the list of column names
+col_names.append('Cover_Type_code')
+
+# Rename the columns in the DataFrame
+df.columns = col_names
+df
+
+df['Soil type code'] = df.iloc[:, 14:54].idxmax(axis=1)
+df = pd.concat([df.iloc[:, :14], df.iloc[:, 54:]], axis=1)
+df['Wilderness area code'] = df.iloc[:, 10:14].idxmax(axis=1)
+df = pd.concat([df.iloc[:, :10], df.iloc[:, 14:]], axis=1)
+df
+
+from sklearn.cluster import KMeans
+
+# Get the soil type code column
+soil_type_code = df['Soil type code']
+
+# Initialize the KMeans object with 5 clusters
+kmeans = KMeans(n_clusters=10)
+
+# Fit the KMeans model on the soil type code column
+kmeans.fit(soil_type_code.to_numpy().reshape(-1, 1))
+
+# Get the cluster labels for each soil type code
+cluster_labels = kmeans.labels_
+
+# Add the cluster labels as a new column in the dataframe
+df['Soil type cluster'] = cluster_labels
+df
+
+# the clustering gonna be in lines ( Circles gonna take a huge time to run ) 
+plt.scatter(df.index, df['Soil type cluster'], c=df['Soil type cluster'])
+plt.xlabel('Row Index')
+plt.ylabel('Cluster')
+plt.title('Soil Type Clusters')
+plt.show()
+
+
+# Model Random Forest : 
+
+#The code is using the Random Forest Classifier algorithm to classify the cover type of a forest based on a number of environmental variables such as elevation, slope, and soil type. However, the dataset may contain irrelevant or redundant features that could negatively impact the accuracy of the model, and also increase the risk of overfitting
+#To avoid overfitting, it's important to identify and remove any unnecessary features that do not contribute significantly to the performance of the model
+
+#try performing feature selection to identify and remove any unnecessary features .
+#This improves the performance of the model and reduce overfitting
+
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(df.drop('Cover_Type_code', axis=1), 
+                                                    df['Cover_Type_code'], 
+                                                    test_size=0.2, 
+                                                    random_state=42)
+
+# Perform feature selection
+from sklearn.feature_selection import SelectFromModel
+
+# Create a random forest classifier with 10 trees
+rfc = RandomForestClassifier(n_estimators=10, random_state=42)
+
+# Create a feature selection object
+selector = SelectFromModel(rfc)
+
+# Fit the selector to the training data
+selector.fit(X_train, y_train)
+
+# Transform the training and testing data to only include the selected features
+X_train_selected = selector.transform(X_train)
+X_test_selected = selector.transform(X_test)
+
+# Fit the model to the training data using only the selected features
+rfc_selected = RandomForestClassifier(n_estimators=10, random_state=42)
+rfc_selected.fit(X_train_selected, y_train)
+
+# Make predictions on the testing data using only the selected features
+y_pred_selected = rfc_selected.predict(X_test_selected)
+
+# Calculate the accuracy of the model using only the selected features
+accuracy_selected = accuracy_score(y_test, y_pred_selected)
+
+print("Accuracy (with feature selection):", accuracy_selected)
+
+# Fit the selector to the training data
+selector.fit(X_train, y_train)
+selected_features = X_train.columns[selector.get_support()]
+print("Selected features:", list(selected_features))
+
+rfc_selected.feature_importances_
